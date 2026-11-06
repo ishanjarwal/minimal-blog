@@ -204,7 +204,12 @@ export function DevtoEditor({ initialData }: { initialData?: InitialPostData }) 
 
   const handleDelete = async () => {
     if (!initialData?.id) return;
-    if (!confirm("Are you sure you want to permanently delete this article?")) return;
+    if (
+      !confirm(
+        `Are you sure you want to permanently delete "${title || "this article"}"?\n\nThis will permanently delete the post and remove all its uploaded images and thumbnails from Cloudinary storage.`
+      )
+    )
+      return;
 
     setIsDeleting(true);
     setError(null);

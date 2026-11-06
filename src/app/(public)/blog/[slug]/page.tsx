@@ -8,6 +8,7 @@ import { isAdminAuthenticated } from "@/lib/auth";
 import { siteConfig } from "@/lib/site-config";
 import { MarkdownRenderer } from "@/components/markdown/markdown-renderer";
 import { getBlogPostingJsonLd, getBreadcrumbJsonLd } from "@/lib/jsonld";
+import { DeletePostButton } from "@/components/blog/delete-post-button";
 import {
   Calendar,
   Clock,
@@ -184,13 +185,16 @@ export default async function BlogPostPage({ params }: PostPageProps) {
           )}
 
           {isAuth && (
-            <Link
-              href={`/blog/${post.slug}/edit`}
-              className="inline-flex items-center gap-1 px-2 py-0.5 border border-border bg-card hover:bg-muted text-blue-600 dark:text-blue-400 underline font-bold whitespace-nowrap shrink-0"
-            >
-              <PenLine className="size-3 shrink-0" />
-              <span>[Edit Article]</span>
-            </Link>
+            <div className="flex items-center gap-2 whitespace-nowrap shrink-0">
+              <Link
+                href={`/blog/${post.slug}/edit`}
+                className="inline-flex items-center gap-1 px-2 py-0.5 border border-border bg-card hover:bg-muted text-blue-600 dark:text-blue-400 underline font-bold whitespace-nowrap shrink-0"
+              >
+                <PenLine className="size-3 shrink-0" />
+                <span>[Edit Article]</span>
+              </Link>
+              <DeletePostButton postId={post.id} postTitle={post.title} />
+            </div>
           )}
         </div>
       </div>

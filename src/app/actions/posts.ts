@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { db } from "@/lib/db";
 import { assertAdmin } from "@/lib/auth";
+import { getPostCloudinaryPublicIds, deleteCloudinaryMediaList } from "@/lib/cloudinary";
 
 const postSchema = z.object({
   id: z.string().optional(),
@@ -138,20 +139,70 @@ export async function savePostAction(
 
 export async function deletePostAction(
   id: string
-): Promise<{ success: boolean; error?: string }> {
+): Promise<{ success: boolean; slug?: string; error?: string }> {
   try {
     await assertAdmin();
 
-    const post = await db.post.delete({
+    // 1. Retrieve post data, tags, and media before deletion
+    const post = await db.post.findUnique({
       where: { id },
-      select: { slug: true },
+      select: {
+        id: true,
+        slug: true,
+        title: true,
+        content: true,
+        thumbnailUrl: true,
+        tags: {
+          select: {
+            tagId: true,
+            tag: { select: { slug: true } },
+          },
+        },
+      },
     });
 
+    if (!post) {
+      return { success: false, error: "Article not found or already deleted" };
+    }
+
+    // 2. Extract all Cloudinary assets linked to this post
+    const mediaIds = getPostCloudinaryPublicIds({
+      thumbnailUrl: post.thumbnailUrl,
+      content: post.content,
+    });
+
+    // 3. Delete the post from the database (cascade deletes PostTag relation rows)
+    await db.post.delete({
+      where: { id },
+    });
+
+    // 4. Destroy linked Cloudinary assets (thumbnail and inline post images)
+    if (mediaIds.length > 0) {
+      await deleteCloudinaryMediaList(mediaIds);
+    }
+
+    // 5. Clean up any orphaned tags that now have zero articles
+    for (const t of post.tags) {
+      const remainingPostsCount = await db.postTag.count({
+        where: { tagId: t.tagId },
+      });
+      if (remainingPostsCount === 0) {
+        await db.tag.delete({ where: { id: t.tagId } }).catch(() => {});
+      }
+    }
+
+    // 6. Comprehensive cache revalidations across all affected public views
     revalidatePath("/");
     revalidatePath(`/blog/${post.slug}`);
     revalidatePath("/tag");
+    for (const t of post.tags) {
+      revalidatePath(`/tag/${t.tag.slug}`);
+    }
+    revalidatePath("/sitemap.xml");
+    revalidatePath("/rss.xml");
+    revalidatePath("/feed.xml");
 
-    return { success: true };
+    return { success: true, slug: post.slug };
   } catch (err: unknown) {
     console.error("Delete post error:", err);
     return {
