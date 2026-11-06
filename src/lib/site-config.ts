@@ -23,7 +23,6 @@ export const siteConfig = {
   nav: [
     { label: "Home", href: "/" },
     { label: "Tags", href: "/tag" },
-    { label: "Write", href: "/write", adminOnly: true },
     { label: "Portfolio ↗", href: "https://ishanjarwal.com", external: true },
   ],
 };

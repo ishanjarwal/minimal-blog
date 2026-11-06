@@ -63,7 +63,7 @@ flowchart TD
 - **Header**:
   - Sticky at top: `sticky top-0 z-40 w-full border-b border-border bg-card/95 backdrop-blur-xs font-mono`.
   - Brand link: `~/ ishanjarwal / blog` with avatar icon.
-  - Desktop nav links: `[Home]`, `[Tags]`, `[Portfolio ->]`, and secret/admin `[Write]`.
+  - Desktop nav links: `[Home]`, `[Tags]`, `[Portfolio ->]`. (Note: The admin `[Write]` link is intentionally unlisted from the public header and accessed directly via `/write`).
   - Theme Toggle: Monospace button switching between light (`Sun`) and dark (`Moon`).
 - **Footer**:
   - Top border `border-t-2 border-border`, copyright statement, quick links to GitHub, LinkedIn, main portfolio, and `[Back to top ↑]` smooth scroll.

@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { siteConfig } from "@/lib/site-config";
 import { ThemeToggle } from "./theme-toggle";
-import { Menu, X, Mail, ExternalLink, PenLine } from "lucide-react";
+import { Menu, X, Mail, ExternalLink } from "lucide-react";
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
@@ -151,19 +151,20 @@ export function Header() {
             <div className="grid grid-cols-2 gap-2">
               <a
                 href={`mailto:${author.email}`}
-                className="flex items-center justify-center gap-1 py-1 px-1 border border-border text-center text-blue-600 dark:text-blue-400 underline text-[11px] whitespace-nowrap"
+                className="flex items-center justify-center gap-1 py-1.5 px-2 border border-border text-center text-blue-600 dark:text-blue-400 underline text-[11px] whitespace-nowrap"
               >
                 <Mail className="size-3 shrink-0" />
                 <span>Email</span>
               </a>
-              <Link
-                href="/write"
+              <a
+                href={author.portfolioUrl}
+                target="_blank"
+                rel="noopener noreferrer"
                 onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center justify-center gap-1 py-1 px-1 border border-border text-center text-blue-600 dark:text-blue-400 underline text-[11px] whitespace-nowrap"
+                className="flex items-center justify-center gap-1 py-1.5 px-2 border border-border text-center text-blue-600 dark:text-blue-400 underline text-[11px] whitespace-nowrap"
               >
-                <PenLine className="size-3 shrink-0" />
-                <span>[Write Post]</span>
-              </Link>
+                <span>Portfolio ↗</span>
+              </a>
             </div>
           </div>
         </div>
