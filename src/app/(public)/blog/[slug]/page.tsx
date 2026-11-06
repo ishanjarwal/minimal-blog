@@ -188,6 +188,7 @@ export default async function BlogPostPage({ params }: PostPageProps) {
               alt={post.title}
               fill
               priority
+              sizes="(max-width: 768px) 100vw, 800px"
               className="object-cover"
             />
           </div>
@@ -207,6 +208,7 @@ export default async function BlogPostPage({ params }: PostPageProps) {
               src={author.avatarUrl}
               alt={author.name}
               fill
+              sizes="64px"
               className="object-cover"
             />
           </div>

@@ -435,6 +435,7 @@ export function DevtoEditor({ initialData }: { initialData?: InitialPostData }) 
                   src={thumbnailUrl}
                   alt="Thumbnail preview"
                   fill
+                  sizes="160px"
                   className="object-cover"
                 />
                 <button
@@ -574,6 +575,7 @@ export function DevtoEditor({ initialData }: { initialData?: InitialPostData }) 
                   src={thumbnailUrl}
                   alt={title}
                   fill
+                  sizes="(max-width: 768px) 100vw, 800px"
                   className="object-cover"
                 />
               </div>
