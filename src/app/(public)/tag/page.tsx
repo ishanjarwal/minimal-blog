@@ -27,7 +27,7 @@ export default async function TagsDirectoryPage() {
 
   return (
     <div className="space-y-6 font-mono text-xs">
-      <div className="border-b border-border pb-3 flex items-center justify-between">
+      <div className="border-b border-border pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div>
           <div className="text-muted-foreground font-semibold">
             ~/directory/tags
@@ -38,7 +38,7 @@ export default async function TagsDirectoryPage() {
         </div>
         <Link
           href="/"
-          className="text-blue-600 dark:text-blue-400 underline hover:text-blue-800 dark:hover:text-blue-300 font-bold"
+          className="text-blue-600 dark:text-blue-400 underline hover:text-blue-800 dark:hover:text-blue-300 font-bold whitespace-nowrap shrink-0"
         >
           [← Home]
         </Link>
@@ -51,15 +51,15 @@ export default async function TagsDirectoryPage() {
             <Link
               key={tag.id}
               href={`/tag/${tag.slug}`}
-              className="group border border-border bg-card p-3 flex items-center justify-between hover:border-blue-500/60 dark:hover:border-blue-400/60 transition-colors"
+              className="group border border-border bg-card p-3 flex items-center justify-between gap-2 hover:border-blue-500/60 dark:hover:border-blue-400/60 transition-colors"
             >
-              <div className="flex items-center gap-2">
-                <TagIcon className="size-3 text-muted-foreground" />
-                <span className="font-bold text-foreground group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+              <div className="flex items-center gap-2 min-w-0">
+                <TagIcon className="size-3 text-muted-foreground shrink-0" />
+                <span className="font-bold text-foreground group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate">
                   #{tag.name}
                 </span>
               </div>
-              <span className="text-[11px] text-muted-foreground font-semibold">
+              <span className="text-[11px] text-muted-foreground font-semibold whitespace-nowrap shrink-0">
                 [{count} {count === 1 ? "post" : "posts"}]
               </span>
             </Link>

@@ -85,14 +85,14 @@ export default function AdminPage() {
           <Button
             type="submit"
             disabled={loading || success}
-            className="w-full justify-center text-xs font-bold border border-border bg-primary text-primary-foreground hover:bg-primary/90 h-9 rounded-none cursor-pointer"
+            className="w-full justify-center text-xs font-bold border border-border bg-primary text-primary-foreground hover:bg-primary/90 h-9 rounded-none cursor-pointer whitespace-nowrap"
           >
             {loading ? (
-              <span>Authenticating...</span>
+              <span className="whitespace-nowrap">Authenticating...</span>
             ) : (
-              <span className="flex items-center gap-1.5">
+              <span className="flex items-center gap-1.5 whitespace-nowrap">
                 <span>[Authenticate</span>
-                <ArrowRight className="size-3" />
+                <ArrowRight className="size-3 shrink-0" />
                 <span>]</span>
               </span>
             )}

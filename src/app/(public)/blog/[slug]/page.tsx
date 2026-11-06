@@ -100,18 +100,18 @@ export default async function BlogPostPage({ params }: PostPageProps) {
 
   return (
     <article className="space-y-8 font-mono">
-      {/* Top Navigation & Status */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border pb-3 text-xs">
+      {/* Top Navigation & Status - Responsive wrapping without breaking words */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-border pb-3 text-xs">
         <Link
           href="/"
-          className="text-blue-600 dark:text-blue-400 underline hover:text-blue-800 dark:hover:text-blue-300 font-bold"
+          className="text-blue-600 dark:text-blue-400 underline hover:text-blue-800 dark:hover:text-blue-300 font-bold whitespace-nowrap shrink-0"
         >
           [← Back to all articles]
         </Link>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 whitespace-nowrap shrink-0">
           {!post.published && (
-            <span className="px-1.5 py-0.5 border border-amber-500/40 bg-amber-500/10 text-amber-600 dark:text-amber-400 text-[11px] font-bold">
+            <span className="px-1.5 py-0.5 border border-amber-500/40 bg-amber-500/10 text-amber-600 dark:text-amber-400 text-[11px] font-bold whitespace-nowrap shrink-0">
               [Draft Mode]
             </span>
           )}
@@ -119,9 +119,9 @@ export default async function BlogPostPage({ params }: PostPageProps) {
           {isAuth && (
             <Link
               href={`/blog/${post.slug}/edit`}
-              className="inline-flex items-center gap-1 px-2 py-0.5 border border-border bg-card hover:bg-muted text-blue-600 dark:text-blue-400 underline font-bold"
+              className="inline-flex items-center gap-1 px-2 py-0.5 border border-border bg-card hover:bg-muted text-blue-600 dark:text-blue-400 underline font-bold whitespace-nowrap shrink-0"
             >
-              <PenLine className="size-3" />
+              <PenLine className="size-3 shrink-0" />
               <span>[Edit Article]</span>
             </Link>
           )}
@@ -132,22 +132,22 @@ export default async function BlogPostPage({ params }: PostPageProps) {
       <header className="space-y-4">
         {/* Meta details banner */}
         <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
-          <span className="inline-flex items-center gap-1">
-            <Calendar className="size-3.5 text-muted-foreground" />
+          <span className="inline-flex items-center gap-1 whitespace-nowrap shrink-0">
+            <Calendar className="size-3.5 text-muted-foreground shrink-0" />
             <span>{formattedPublishDate}</span>
           </span>
 
           <span>&bull;</span>
 
-          <span className="inline-flex items-center gap-1">
-            <Clock className="size-3.5 text-muted-foreground" />
+          <span className="inline-flex items-center gap-1 whitespace-nowrap shrink-0">
+            <Clock className="size-3.5 text-muted-foreground shrink-0" />
             <span>{post.readTimeMinutes} min read</span>
           </span>
 
           {formattedUpdateDate && (
             <>
               <span>&bull;</span>
-              <span className="text-[11px] text-muted-foreground">
+              <span className="text-[11px] text-muted-foreground whitespace-nowrap shrink-0">
                 Updated: {formattedUpdateDate}
               </span>
             </>
@@ -170,9 +170,9 @@ export default async function BlogPostPage({ params }: PostPageProps) {
             <Link
               key={tag.id}
               href={`/tag/${tag.slug}`}
-              className="inline-flex items-center gap-1 px-2 py-0.5 border border-border bg-muted/60 text-xs text-foreground hover:bg-muted transition-colors"
+              className="inline-flex items-center gap-1 px-2 py-0.5 border border-border bg-muted/60 text-xs text-foreground hover:bg-muted transition-colors whitespace-nowrap shrink-0"
             >
-              <Tag className="size-3 text-muted-foreground" />
+              <Tag className="size-3 text-muted-foreground shrink-0" />
               <span>#{tag.name}</span>
             </Link>
           ))}
@@ -210,7 +210,7 @@ export default async function BlogPostPage({ params }: PostPageProps) {
           </div>
 
           <div className="space-y-1.5 flex-1 min-w-0 text-xs">
-            <div className="font-bold text-foreground text-sm">
+            <div className="font-bold text-foreground text-sm whitespace-nowrap">
               Written by {author.name}
             </div>
             <p className="text-muted-foreground leading-relaxed">
@@ -221,25 +221,25 @@ export default async function BlogPostPage({ params }: PostPageProps) {
                 href={author.portfolioUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-600 dark:text-blue-400 underline hover:text-blue-800 dark:hover:text-blue-300 font-semibold"
+                className="text-blue-600 dark:text-blue-400 underline hover:text-blue-800 dark:hover:text-blue-300 font-semibold whitespace-nowrap"
               >
                 [Portfolio]
               </a>
-              <span className="text-border">|</span>
+              <span className="text-border select-none">|</span>
               <a
                 href={author.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-600 dark:text-blue-400 underline hover:text-blue-800 dark:hover:text-blue-300 font-semibold"
+                className="text-blue-600 dark:text-blue-400 underline hover:text-blue-800 dark:hover:text-blue-300 font-semibold whitespace-nowrap"
               >
                 [GitHub]
               </a>
-              <span className="text-border">|</span>
+              <span className="text-border select-none">|</span>
               <a
                 href={author.linkedinUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-600 dark:text-blue-400 underline hover:text-blue-800 dark:hover:text-blue-300 font-semibold"
+                className="text-blue-600 dark:text-blue-400 underline hover:text-blue-800 dark:hover:text-blue-300 font-semibold whitespace-nowrap"
               >
                 [LinkedIn]
               </a>

@@ -44,7 +44,7 @@ export default async function EditPage({ params }: EditPageProps) {
 
   return (
     <div className="space-y-6">
-      <div className="border-b border-border pb-3 flex items-center justify-between">
+      <div className="border-b border-border pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div>
           <div className="text-xs text-muted-foreground font-mono font-semibold">
             ~/studio/edit/{post.slug}
@@ -53,7 +53,7 @@ export default async function EditPage({ params }: EditPageProps) {
             # Edit Article
           </h1>
         </div>
-        <span className="text-xs text-muted-foreground font-mono">
+        <span className="text-xs text-muted-foreground font-mono whitespace-nowrap shrink-0">
           [ID: {post.id.slice(-8)}]
         </span>
       </div>

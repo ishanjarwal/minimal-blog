@@ -35,22 +35,24 @@ export default async function HomePage({ searchParams }: HomePageProps) {
 
   return (
     <div className="space-y-6">
-      {/* Feed Header */}
-      <div className="flex items-center justify-between border-b border-border pb-3">
-        <div className="flex items-center gap-2">
-          <BookOpen className="size-4 text-muted-foreground" />
-          <h1 className="text-base sm:text-lg font-bold tracking-tight text-foreground font-mono">
+      {/* Feed Header - Responsive flex-col on mobile to prevent squishing or word breaking */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-border pb-3">
+        <div className="flex items-center gap-2 shrink-0">
+          <BookOpen className="size-4 text-muted-foreground shrink-0" />
+          <h1 className="text-base sm:text-lg font-bold tracking-tight text-foreground font-mono whitespace-nowrap">
             ## Latest Articles
           </h1>
         </div>
-        <div className="flex items-center gap-2 text-xs text-muted-foreground font-mono">
-          <span>
+
+        {/* Counter & Action - Single unit whitespace-nowrap */}
+        <div className="flex items-center gap-2 text-xs text-muted-foreground font-mono whitespace-nowrap shrink-0">
+          <span className="whitespace-nowrap shrink-0">
             [{totalPosts} {totalPosts === 1 ? "article" : "articles"}]
           </span>
           {isAuth && (
             <Link
               href="/write"
-              className="text-blue-600 dark:text-blue-400 underline hover:text-blue-800 dark:hover:text-blue-300 font-bold"
+              className="text-blue-600 dark:text-blue-400 underline hover:text-blue-800 dark:hover:text-blue-300 font-bold whitespace-nowrap shrink-0"
             >
               [+ New Post]
             </Link>
@@ -65,7 +67,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
           {isAuth && (
             <Link
               href="/write"
-              className="inline-block text-blue-600 dark:text-blue-400 underline font-semibold"
+              className="inline-block text-blue-600 dark:text-blue-400 underline font-semibold whitespace-nowrap"
             >
               [Write the first article]
             </Link>
@@ -92,23 +94,23 @@ export default async function HomePage({ searchParams }: HomePageProps) {
                   <div className="flex-1 min-w-0 space-y-2.5">
                     {/* Meta Info */}
                     <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground font-mono">
-                      <span className="inline-flex items-center gap-1">
-                        <Calendar className="size-3" />
-                        {formattedDate}
+                      <span className="inline-flex items-center gap-1 whitespace-nowrap shrink-0">
+                        <Calendar className="size-3 shrink-0" />
+                        <span>{formattedDate}</span>
                       </span>
                       <span>&bull;</span>
-                      <span className="inline-flex items-center gap-1">
-                        <Clock className="size-3" />
-                        {post.readTimeMinutes} min read
+                      <span className="inline-flex items-center gap-1 whitespace-nowrap shrink-0">
+                        <Clock className="size-3 shrink-0" />
+                        <span>{post.readTimeMinutes} min read</span>
                       </span>
                       {isAuth && (
                         <>
                           <span>&bull;</span>
                           <Link
                             href={`/blog/${post.slug}/edit`}
-                            className="inline-flex items-center gap-0.5 text-blue-600 dark:text-blue-400 underline hover:text-blue-800 dark:hover:text-blue-300 font-bold"
+                            className="inline-flex items-center gap-0.5 text-blue-600 dark:text-blue-400 underline hover:text-blue-800 dark:hover:text-blue-300 font-bold whitespace-nowrap shrink-0"
                           >
-                            <PenLine className="size-2.5" />
+                            <PenLine className="size-2.5 shrink-0" />
                             <span>[Edit]</span>
                           </Link>
                         </>
@@ -137,9 +139,9 @@ export default async function HomePage({ searchParams }: HomePageProps) {
                           <Link
                             key={tag.id}
                             href={`/tag/${tag.slug}`}
-                            className="inline-flex items-center gap-1 px-1.5 py-0.5 border border-border bg-muted/60 text-[11px] text-foreground hover:bg-muted transition-colors"
+                            className="inline-flex items-center gap-1 px-1.5 py-0.5 border border-border bg-muted/60 text-[11px] text-foreground hover:bg-muted transition-colors whitespace-nowrap shrink-0"
                           >
-                            <Tag className="size-2.5 text-muted-foreground" />
+                            <Tag className="size-2.5 text-muted-foreground shrink-0" />
                             <span>{tag.name}</span>
                           </Link>
                         ))}
@@ -147,10 +149,10 @@ export default async function HomePage({ searchParams }: HomePageProps) {
 
                       <Link
                         href={`/blog/${post.slug}`}
-                        className="inline-flex items-center gap-1 text-xs font-bold text-blue-600 dark:text-blue-400 underline hover:text-blue-800 dark:hover:text-blue-300 ml-auto"
+                        className="inline-flex items-center gap-1 text-xs font-bold text-blue-600 dark:text-blue-400 underline hover:text-blue-800 dark:hover:text-blue-300 ml-auto whitespace-nowrap shrink-0"
                       >
                         <span>[Read</span>
-                        <ArrowRight className="size-3" />
+                        <ArrowRight className="size-3 shrink-0" />
                         <span>]</span>
                       </Link>
                     </div>
@@ -183,29 +185,29 @@ export default async function HomePage({ searchParams }: HomePageProps) {
           {currentPage > 1 ? (
             <Link
               href={`/?page=${currentPage - 1}`}
-              className="px-2 py-1 border border-border bg-card hover:bg-muted text-blue-600 dark:text-blue-400 underline select-none font-bold"
+              className="px-2 py-1 border border-border bg-card hover:bg-muted text-blue-600 dark:text-blue-400 underline select-none font-bold whitespace-nowrap shrink-0"
             >
               [← Previous]
             </Link>
           ) : (
-            <span className="px-2 py-1 border border-border bg-muted/40 text-muted-foreground select-none cursor-not-allowed">
+            <span className="px-2 py-1 border border-border bg-muted/40 text-muted-foreground select-none cursor-not-allowed whitespace-nowrap shrink-0">
               [← Previous]
             </span>
           )}
 
-          <span className="text-muted-foreground select-none">
+          <span className="text-muted-foreground select-none whitespace-nowrap">
             Page {currentPage} of {totalPages}
           </span>
 
           {currentPage < totalPages ? (
             <Link
               href={`/?page=${currentPage + 1}`}
-              className="px-2 py-1 border border-border bg-card hover:bg-muted text-blue-600 dark:text-blue-400 underline select-none font-bold"
+              className="px-2 py-1 border border-border bg-card hover:bg-muted text-blue-600 dark:text-blue-400 underline select-none font-bold whitespace-nowrap shrink-0"
             >
               [Next →]
             </Link>
           ) : (
-            <span className="px-2 py-1 border border-border bg-muted/40 text-muted-foreground select-none cursor-not-allowed">
+            <span className="px-2 py-1 border border-border bg-muted/40 text-muted-foreground select-none cursor-not-allowed whitespace-nowrap shrink-0">
               [Next →]
             </span>
           )}

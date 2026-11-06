@@ -63,28 +63,28 @@ export default async function TagFeedPage({ params }: TagPageProps) {
 
   return (
     <div className="space-y-6 font-mono text-xs">
-      {/* Tag Banner */}
+      {/* Tag Banner - Responsive flex-col on mobile */}
       <div className="border-b border-border pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-        <div>
+        <div className="min-w-0">
           <div className="text-muted-foreground font-semibold">
             ~/tag/{tag.slug}
           </div>
-          <h1 className="text-lg font-bold text-foreground flex items-center gap-2">
-            <TagIcon className="size-4 text-muted-foreground" />
-            <span>## Articles tagged with #{tag.name}</span>
+          <h1 className="text-base sm:text-lg font-bold text-foreground flex items-center gap-2">
+            <TagIcon className="size-4 text-muted-foreground shrink-0" />
+            <span className="truncate">## Articles tagged with #{tag.name}</span>
           </h1>
         </div>
-        <div className="flex items-center gap-2 text-xs">
+        <div className="flex items-center gap-2 text-xs whitespace-nowrap shrink-0">
           <Link
             href="/tag"
-            className="text-blue-600 dark:text-blue-400 underline hover:text-blue-800 dark:hover:text-blue-300 font-bold"
+            className="text-blue-600 dark:text-blue-400 underline hover:text-blue-800 dark:hover:text-blue-300 font-bold whitespace-nowrap shrink-0"
           >
             [All Tags]
           </Link>
-          <span className="text-border">|</span>
+          <span className="text-border select-none shrink-0">|</span>
           <Link
             href="/"
-            className="text-blue-600 dark:text-blue-400 underline hover:text-blue-800 dark:hover:text-blue-300 font-bold"
+            className="text-blue-600 dark:text-blue-400 underline hover:text-blue-800 dark:hover:text-blue-300 font-bold whitespace-nowrap shrink-0"
           >
             [Home]
           </Link>
@@ -115,14 +115,14 @@ export default async function TagFeedPage({ params }: TagPageProps) {
                 <div className="flex flex-col md:flex-row gap-4 items-start justify-between">
                   <div className="flex-1 min-w-0 space-y-2.5">
                     <div className="flex flex-wrap items-center gap-2 text-muted-foreground">
-                      <span className="inline-flex items-center gap-1">
-                        <Calendar className="size-3" />
-                        {formattedDate}
+                      <span className="inline-flex items-center gap-1 whitespace-nowrap shrink-0">
+                        <Calendar className="size-3 shrink-0" />
+                        <span>{formattedDate}</span>
                       </span>
                       <span>&bull;</span>
-                      <span className="inline-flex items-center gap-1">
-                        <Clock className="size-3" />
-                        {post.readTimeMinutes} min read
+                      <span className="inline-flex items-center gap-1 whitespace-nowrap shrink-0">
+                        <Clock className="size-3 shrink-0" />
+                        <span>{post.readTimeMinutes} min read</span>
                       </span>
                     </div>
 
@@ -145,13 +145,13 @@ export default async function TagFeedPage({ params }: TagPageProps) {
                           <Link
                             key={otherTag.id}
                             href={`/tag/${otherTag.slug}`}
-                            className={`inline-flex items-center gap-1 px-1.5 py-0.5 border text-[11px] transition-colors ${
+                            className={`inline-flex items-center gap-1 px-1.5 py-0.5 border text-[11px] transition-colors whitespace-nowrap shrink-0 ${
                               otherTag.slug === tag.slug
                                 ? "border-blue-500/80 bg-blue-500/10 text-blue-600 dark:text-blue-400 font-bold"
                                 : "border-border bg-muted/60 text-foreground hover:bg-muted"
                             }`}
                           >
-                            <TagIcon className="size-2.5 text-muted-foreground" />
+                            <TagIcon className="size-2.5 text-muted-foreground shrink-0" />
                             <span>{otherTag.name}</span>
                           </Link>
                         ))}
@@ -159,10 +159,10 @@ export default async function TagFeedPage({ params }: TagPageProps) {
 
                       <Link
                         href={`/blog/${post.slug}`}
-                        className="inline-flex items-center gap-1 font-bold text-blue-600 dark:text-blue-400 underline hover:text-blue-800 dark:hover:text-blue-300 ml-auto"
+                        className="inline-flex items-center gap-1 font-bold text-blue-600 dark:text-blue-400 underline hover:text-blue-800 dark:hover:text-blue-300 ml-auto whitespace-nowrap shrink-0"
                       >
                         <span>[Read</span>
-                        <ArrowRight className="size-3" />
+                        <ArrowRight className="size-3 shrink-0" />
                         <span>]</span>
                       </Link>
                     </div>

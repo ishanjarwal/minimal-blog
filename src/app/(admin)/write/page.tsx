@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function WritePage() {
   return (
     <div className="space-y-6">
-      <div className="border-b border-border pb-3 flex items-center justify-between">
+      <div className="border-b border-border pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div>
           <div className="text-xs text-muted-foreground font-mono font-semibold">
             ~/studio/create
@@ -19,7 +19,7 @@ export default function WritePage() {
             # Write New Article
           </h1>
         </div>
-        <span className="text-xs text-muted-foreground font-mono">
+        <span className="text-xs text-muted-foreground font-mono whitespace-nowrap shrink-0">
           [Markdown Mode]
         </span>
       </div>

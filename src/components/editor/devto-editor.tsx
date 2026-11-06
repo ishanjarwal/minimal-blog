@@ -228,31 +228,31 @@ export function DevtoEditor({ initialData }: { initialData?: InitialPostData }) 
           <button
             type="button"
             onClick={() => setActiveTab("write")}
-            className={`px-3 py-1.5 border border-border flex items-center gap-1.5 font-bold transition-colors cursor-pointer select-none ${
+            className={`px-3 py-1.5 border border-border flex items-center gap-1.5 font-bold transition-colors cursor-pointer select-none whitespace-nowrap shrink-0 ${
               activeTab === "write"
                 ? "bg-primary text-primary-foreground"
                 : "bg-card text-foreground hover:bg-muted"
             }`}
           >
             <Edit3 className="size-3.5" />
-            <span>[Write]</span>
+            <span className="whitespace-nowrap">[Write]</span>
           </button>
 
           <button
             type="button"
             onClick={() => setActiveTab("preview")}
-            className={`px-3 py-1.5 border border-border flex items-center gap-1.5 font-bold transition-colors cursor-pointer select-none ${
+            className={`px-3 py-1.5 border border-border flex items-center gap-1.5 font-bold transition-colors cursor-pointer select-none whitespace-nowrap shrink-0 ${
               activeTab === "preview"
                 ? "bg-primary text-primary-foreground"
                 : "bg-card text-foreground hover:bg-muted"
             }`}
           >
             <Eye className="size-3.5" />
-            <span>[Preview]</span>
+            <span className="whitespace-nowrap">[Preview]</span>
           </button>
         </div>
 
-        <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+        <div className="flex items-center gap-2 w-full sm:w-auto justify-end shrink-0">
           {initialData?.id && (
             <Button
               type="button"
@@ -260,10 +260,10 @@ export function DevtoEditor({ initialData }: { initialData?: InitialPostData }) 
               size="sm"
               disabled={isDeleting || isSaving}
               onClick={handleDelete}
-              className="text-xs font-mono rounded-none border border-destructive/40"
+              className="text-xs font-mono rounded-none border border-destructive/40 whitespace-nowrap shrink-0"
             >
               <Trash2 className="size-3.5" />
-              <span>[Delete]</span>
+              <span className="whitespace-nowrap">[Delete]</span>
             </Button>
           )}
 
@@ -271,14 +271,14 @@ export function DevtoEditor({ initialData }: { initialData?: InitialPostData }) 
             type="button"
             onClick={handleSubmit}
             disabled={isSaving}
-            className="text-xs font-bold font-mono rounded-none border border-border bg-primary text-primary-foreground hover:bg-primary/90 cursor-pointer"
+            className="text-xs font-bold font-mono rounded-none border border-border bg-primary text-primary-foreground hover:bg-primary/90 cursor-pointer whitespace-nowrap shrink-0"
           >
             {isSaving ? (
-              <span>Saving...</span>
+              <span className="whitespace-nowrap">Saving...</span>
             ) : (
-              <span className="flex items-center gap-1">
+              <span className="flex items-center gap-1 whitespace-nowrap">
                 <span>{initialData?.id ? "[Update Post" : "[Publish Post"}</span>
-                <ArrowRight className="size-3" />
+                <ArrowRight className="size-3 shrink-0" />
                 <span>]</span>
               </span>
             )}
