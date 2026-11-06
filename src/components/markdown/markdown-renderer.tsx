@@ -46,8 +46,8 @@ function CodeBlock({ children, className }: { children: React.ReactNode; classNa
   };
 
   return (
-    <div className="relative group my-4 border border-border bg-[#0d1117] text-[#e6edf3] font-mono text-xs">
-      <div className="flex items-center justify-between px-3 py-1.5 border-b border-border/40 bg-[#161b22] text-[11px] text-muted-foreground select-none">
+    <div className="relative group my-4 border border-border bg-neutral-950 text-neutral-100 font-mono text-xs">
+      <div className="flex items-center justify-between px-3 py-1.5 border-b border-border/40 bg-neutral-900 text-[11px] text-muted-foreground select-none">
         <span className="uppercase tracking-wider">
           {className?.replace("language-", "") || "code"}
         </span>
@@ -127,7 +127,7 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
 
               if (videoId) {
                 return (
-                  <div className="my-5 aspect-video w-full border border-border bg-black overflow-hidden">
+                  <span className="block my-5 aspect-video w-full border border-border bg-black overflow-hidden">
                     <iframe
                       src={`https://www.youtube-nocookie.com/embed/${videoId}`}
                       title="YouTube video embed"
@@ -135,7 +135,7 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
                       allowFullScreen
                       className="w-full h-full border-0"
                     />
-                  </div>
+                  </span>
                 );
               }
             }
