@@ -5,6 +5,8 @@ import { db } from "@/lib/db";
 import { isAdminAuthenticated } from "@/lib/auth";
 import { Clock, Calendar, ArrowRight, Tag, BookOpen, PenLine } from "@/components/icons";
 
+export const dynamic = "force-dynamic";
+
 interface HomePageProps {
   searchParams: Promise<{ page?: string }>;
 }

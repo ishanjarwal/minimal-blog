@@ -4,6 +4,8 @@ import { Metadata } from "next";
 import { db } from "@/lib/db";
 import { Tag as TagIcon } from "@/components/icons";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Tags Directory",
   description: "Browse all topics and article tags",

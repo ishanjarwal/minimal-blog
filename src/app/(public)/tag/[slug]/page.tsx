@@ -11,6 +11,8 @@ import {
   ArrowRight,
 } from "@/components/icons";
 
+export const dynamic = "force-dynamic";
+
 interface TagPageProps {
   params: Promise<{ slug: string }>;
 }

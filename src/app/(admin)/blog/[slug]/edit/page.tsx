@@ -4,6 +4,8 @@ import { Metadata } from "next";
 import { db } from "@/lib/db";
 import { DevtoEditor } from "@/components/editor/devto-editor";
 
+export const dynamic = "force-dynamic";
+
 interface EditPageProps {
   params: Promise<{ slug: string }>;
 }

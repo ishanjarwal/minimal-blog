@@ -14,6 +14,8 @@ import {
   PenLine,
 } from "@/components/icons";
 
+export const dynamic = "force-dynamic";
+
 interface PostPageProps {
   params: Promise<{ slug: string }>;
 }
