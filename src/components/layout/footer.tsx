@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { siteConfig } from "@/lib/site-config";
-import { ArrowUp, GithubIcon, LinkedinIcon, Globe } from "@/components/icons";
+import { ArrowUp, GithubIcon, LinkedinIcon, Globe, Rss } from "@/components/icons";
 
 export function Footer() {
   const { author } = siteConfig;
@@ -59,6 +59,19 @@ export function Footer() {
             >
               <Globe className="size-3.5 shrink-0" />
               <span>[Portfolio]</span>
+            </a>
+
+            <span className="hidden sm:inline-block text-border select-none">|</span>
+
+            <a
+              href="/rss.xml"
+              target="_blank"
+              rel="alternate"
+              type="application/rss+xml"
+              className="inline-flex items-center gap-1 text-blue-600 dark:text-blue-400 underline hover:text-blue-800 dark:hover:text-blue-300 font-semibold whitespace-nowrap"
+            >
+              <Rss className="size-3.5 shrink-0" />
+              <span>[RSS]</span>
             </a>
 
             <span className="hidden sm:inline-block text-border select-none">|</span>

@@ -1,11 +1,22 @@
 import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { Metadata } from "next";
 import { db } from "@/lib/db";
 import { isAdminAuthenticated } from "@/lib/auth";
+import { siteConfig } from "@/lib/site-config";
 import { Clock, Calendar, ArrowRight, Tag, BookOpen, PenLine } from "@/components/icons";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: `${siteConfig.author.name} | Blog - ${siteConfig.blog.subheading}`,
+  description: siteConfig.blog.description,
+  keywords: siteConfig.keywords,
+  alternates: {
+    canonical: siteConfig.blog.url,
+  },
+};
 
 interface HomePageProps {
   searchParams: Promise<{ page?: string }>;
@@ -35,8 +46,25 @@ export default async function HomePage({ searchParams }: HomePageProps) {
 
   const totalPages = Math.max(1, Math.ceil(totalPosts / PAGE_SIZE));
 
+  const itemListJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: posts.map((post, index) => ({
+      "@type": "ListItem",
+      position: (currentPage - 1) * PAGE_SIZE + index + 1,
+      name: post.title,
+      url: `${siteConfig.blog.url}/blog/${post.slug}`,
+    })),
+  };
+
   return (
     <div className="space-y-6">
+      {/* Schema.org ItemList Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }}
+      />
+
       {/* Feed Header - Responsive flex-col on mobile to prevent squishing or word breaking */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-border pb-3">
         <div className="flex items-center gap-2 shrink-0">
@@ -98,7 +126,9 @@ export default async function HomePage({ searchParams }: HomePageProps) {
                     <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground font-mono">
                       <span className="inline-flex items-center gap-1 whitespace-nowrap shrink-0">
                         <Calendar className="size-3 shrink-0" />
-                        <span>{formattedDate}</span>
+                        <time dateTime={post.publishedAt ? new Date(post.publishedAt).toISOString() : undefined}>
+                          {formattedDate}
+                        </time>
                       </span>
                       <span>&bull;</span>
                       <span className="inline-flex items-center gap-1 whitespace-nowrap shrink-0">

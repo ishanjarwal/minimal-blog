@@ -41,6 +41,7 @@ import {
   Trash2,
   Eye,
   Edit3,
+  Rss,
 } from "lucide-react";
 
 export function GithubIcon({ className, ...props }: React.SVGProps<SVGSVGElement>) {
@@ -143,4 +144,5 @@ export {
   Trash2,
   Eye,
   Edit3,
+  Rss,
 };

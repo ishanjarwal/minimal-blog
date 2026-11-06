@@ -8,12 +8,23 @@ export function proxy(request: NextRequest) {
   // Add security headers
   response.headers.set("X-Frame-Options", "DENY");
   response.headers.set("X-Content-Type-Options", "nosniff");
-  response.headers.set("Referrer-Policy", "origin-when-cross-origin");
+  response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
   if (process.env.NODE_ENV === "production") {
     response.headers.set(
       "Strict-Transport-Security",
       "max-age=31536000; includeSubDomains"
     );
+  }
+
+  // Enforce noindex headers on admin and internal API mutation routes (allow public /api/og)
+  const isPrivateApi = pathname.startsWith("/api/") && !pathname.startsWith("/api/og");
+  if (
+    pathname.startsWith("/admin") ||
+    pathname.startsWith("/write") ||
+    isPrivateApi ||
+    pathname.includes("/edit")
+  ) {
+    response.headers.set("X-Robots-Tag", "noindex, nofollow, noarchive");
   }
 
   // Guard protected admin routes: /write and /blog/:slug/edit

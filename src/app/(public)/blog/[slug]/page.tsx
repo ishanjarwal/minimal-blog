@@ -7,6 +7,7 @@ import { db } from "@/lib/db";
 import { isAdminAuthenticated } from "@/lib/auth";
 import { siteConfig } from "@/lib/site-config";
 import { MarkdownRenderer } from "@/components/markdown/markdown-renderer";
+import { getBlogPostingJsonLd, getBreadcrumbJsonLd } from "@/lib/jsonld";
 import {
   Calendar,
   Clock,
@@ -29,6 +30,12 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
       shortDescription: true,
       thumbnailUrl: true,
       publishedAt: true,
+      updatedAt: true,
+      tags: {
+        select: {
+          tag: { select: { name: true } },
+        },
+      },
     },
   });
 
@@ -37,25 +44,51 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
   }
 
   const { author, blog } = siteConfig;
-  const images = post.thumbnailUrl ? [{ url: post.thumbnailUrl }] : [];
+  const tagNames = post.tags.map((t) => t.tag.name);
+  const primaryTag = tagNames[0] || "Engineering";
+
+  const ogImageUrl =
+    post.thumbnailUrl ||
+    `${blog.url}/api/og?title=${encodeURIComponent(post.title)}&tag=${encodeURIComponent(
+      primaryTag
+    )}&description=${encodeURIComponent(post.shortDescription)}`;
+
+  const canonicalUrl = `${blog.url}/blog/${slug}`;
 
   return {
     title: post.title,
     description: post.shortDescription,
+    keywords: [...tagNames, ...siteConfig.keywords],
     authors: [{ name: author.name, url: author.portfolioUrl }],
+    creator: author.name,
+    publisher: author.name,
+    alternates: {
+      canonical: canonicalUrl,
+    },
     openGraph: {
       title: post.title,
       description: post.shortDescription,
-      url: `${blog.url}/blog/${slug}`,
+      url: canonicalUrl,
       type: "article",
       publishedTime: post.publishedAt?.toISOString(),
-      images,
+      modifiedTime: post.updatedAt.toISOString(),
+      authors: [author.portfolioUrl],
+      tags: tagNames,
+      images: [
+        {
+          url: ogImageUrl,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title: post.title,
       description: post.shortDescription,
-      images: post.thumbnailUrl ? [post.thumbnailUrl] : [],
+      creator: `@${author.handle}`,
+      images: [ogImageUrl],
     },
   };
 }
@@ -100,8 +133,40 @@ export default async function BlogPostPage({ params }: PostPageProps) {
       }).format(new Date(post.updatedAt))
     : null;
 
+  const tagNames = post.tags.map((t) => t.tag.name);
+  const primaryTag = post.tags[0]?.tag;
+
+  const blogPostingJsonLd = getBlogPostingJsonLd({
+    title: post.title,
+    shortDescription: post.shortDescription,
+    slug: post.slug,
+    content: post.content,
+    thumbnailUrl: post.thumbnailUrl,
+    publishedAt: post.publishedAt,
+    updatedAt: post.updatedAt,
+    tags: tagNames,
+  });
+
+  const breadcrumbs = [
+    { name: "Home", path: "/" },
+    { name: "Tags", path: "/tag" },
+    ...(primaryTag ? [{ name: `#${primaryTag.name}`, path: `/tag/${primaryTag.slug}` }] : []),
+    { name: post.title, path: `/blog/${post.slug}` },
+  ];
+  const breadcrumbJsonLd = getBreadcrumbJsonLd(breadcrumbs);
+
   return (
     <article className="space-y-8 font-mono">
+      {/* Schema.org Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostingJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+
       {/* Top Navigation & Status - Responsive wrapping without breaking words */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-border pb-3 text-xs">
         <Link
@@ -136,7 +201,9 @@ export default async function BlogPostPage({ params }: PostPageProps) {
         <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
           <span className="inline-flex items-center gap-1 whitespace-nowrap shrink-0">
             <Calendar className="size-3.5 text-muted-foreground shrink-0" />
-            <span>{formattedPublishDate}</span>
+            <time dateTime={post.publishedAt ? new Date(post.publishedAt).toISOString() : undefined}>
+              {formattedPublishDate}
+            </time>
           </span>
 
           <span>&bull;</span>
@@ -149,9 +216,12 @@ export default async function BlogPostPage({ params }: PostPageProps) {
           {formattedUpdateDate && (
             <>
               <span>&bull;</span>
-              <span className="text-[11px] text-muted-foreground whitespace-nowrap shrink-0">
+              <time
+                dateTime={post.updatedAt.toISOString()}
+                className="text-[11px] text-muted-foreground whitespace-nowrap shrink-0"
+              >
                 Updated: {formattedUpdateDate}
-              </span>
+              </time>
             </>
           )}
         </div>

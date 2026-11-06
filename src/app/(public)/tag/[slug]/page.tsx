@@ -4,6 +4,8 @@ import { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { db } from "@/lib/db";
+import { siteConfig } from "@/lib/site-config";
+import { getBreadcrumbJsonLd, getCollectionPageJsonLd } from "@/lib/jsonld";
 import {
   Calendar,
   Clock,
@@ -28,9 +30,41 @@ export async function generateMetadata({ params }: TagPageProps): Promise<Metada
     return { title: "Tag Not Found" };
   }
 
+  const title = `Articles tagged with #${tag.name}`;
+  const description = `Collection of in-depth engineering and systems articles exploring ${tag.name}.`;
+  const canonicalUrl = `${siteConfig.blog.url}/tag/${slug}`;
+  const ogImageUrl = `${siteConfig.blog.url}/api/og?title=${encodeURIComponent(
+    title
+  )}&tag=${encodeURIComponent(tag.name)}&description=${encodeURIComponent(description)}`;
+
   return {
-    title: `Articles tagged with #${tag.name}`,
-    description: `Collection of engineering articles exploring ${tag.name}`,
+    title,
+    description,
+    keywords: [tag.name, ...siteConfig.keywords],
+    alternates: {
+      canonical: canonicalUrl,
+    },
+    openGraph: {
+      title,
+      description,
+      url: canonicalUrl,
+      type: "website",
+      images: [
+        {
+          url: ogImageUrl,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      creator: `@${siteConfig.author.handle}`,
+      images: [ogImageUrl],
+    },
   };
 }
 
@@ -63,8 +97,34 @@ export default async function TagFeedPage({ params }: TagPageProps) {
 
   const posts = tag.posts.map((p) => p.post);
 
+  const breadcrumbs = [
+    { name: "Home", path: "/" },
+    { name: "Tags", path: "/tag" },
+    { name: `#${tag.name}`, path: `/tag/${tag.slug}` },
+  ];
+  const breadcrumbJsonLd = getBreadcrumbJsonLd(breadcrumbs);
+  const collectionJsonLd = getCollectionPageJsonLd({
+    title: `Articles tagged with #${tag.name}`,
+    description: `Collection of engineering articles exploring ${tag.name}`,
+    path: `/tag/${tag.slug}`,
+    items: posts.map((p) => ({
+      name: p.title,
+      path: `/blog/${p.slug}`,
+    })),
+  });
+
   return (
     <div className="space-y-6 font-mono text-xs">
+      {/* Schema.org Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionJsonLd) }}
+      />
+
       {/* Tag Banner - Responsive flex-col on mobile */}
       <div className="border-b border-border pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div className="min-w-0">

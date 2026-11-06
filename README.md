@@ -35,6 +35,13 @@ Designed to be hosted on `blog.myportfolio.com` (or any custom domain/VPS) as a 
 - **Zero-Friction Admin Protection**:
   - Personal blog model: no complex multi-user registration or bulky OAuth.
   - Secure passkey / secret token protection on write, edit, and mutation endpoints.
+- **Comprehensive SEO & Discovery Suite**:
+  - Full **Schema.org JSON-LD** structured data: `WebSite`, `Person`, `BlogPosting` (with wordCount, dates, author), `BreadcrumbList`, `CollectionPage`, and `ItemList`.
+  - Dynamic **OpenGraph Image Generation** (`/api/og`) using `next/og` producing branded 1200x630 social preview cards.
+  - Automated XML sitemap (`/sitemap.xml`) and search-engine optimized `robots.txt`.
+  - Native **RSS 2.0 & Atom Feed** (`/rss.xml`, `/feed.xml`) with footer syndication.
+  - Web App Manifest (`manifest.webmanifest`) and strict canonical URLs across all public routes.
+  - Defensive `X-Robots-Tag: noindex, nofollow, noarchive` blocking crawler indexing on admin challenge and studio routes.
 - **Built for VPS Deployment**:
   - Built-in lightweight rate limiting to protect API routes and mutations from abuse.
   - Input sanitization & Zod validation for rock-solid security.

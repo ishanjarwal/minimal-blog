@@ -114,6 +114,26 @@ flowchart LR
    - Secure Cloudinary upload endpoint / signed signature generation.
 7. `/api/auth/admin` (Admin Gatekeeper):
    - Validates `ADMIN_SECRET_KEY` and sets an httpOnly session cookie for admin privileges.
+8. `/api/og` (Dynamic OpenGraph Generator):
+   - Generates high-resolution 1200x630 pixel social cards on the fly via `next/og`.
+9. `/sitemap.xml` & `/robots.txt`:
+   - Automated dynamic XML sitemap with real-time post timestamps and priorities.
+10. `/rss.xml` & `/feed.xml`:
+    - Full RSS 2.0 syndication feed for readers, RSS clients, and tech aggregators.
+
+### 3.2 SEO & Structured Data Architecture
+
+- **Schema.org JSON-LD**:
+  - `WebSite`: Primary website entity linked with author and site information.
+  - `Person`: Author credentials, avatar, job title, and social `sameAs` profiles (GitHub, LinkedIn, Twitter/X, portfolio).
+  - `BlogPosting`: Full article metadata including headline, description, author, wordCount, publishedAt, updatedAt, and keywords.
+  - `BreadcrumbList`: Hierarchical breadcrumbs (Home -> Tags -> Tag -> Article) enabling Google SERP rich breadcrumb paths.
+  - `CollectionPage`: Categorized feeds on tag directories and individual tag views.
+  - `ItemList`: Paginated article lists on the home feed.
+- **Canonical URLs**: Explicit canonical tags on all public routes preventing search engine query param duplication.
+- **Bot Indexing Control**:
+  - Open indexing and snippet preview configuration for public content.
+  - Strict `X-Robots-Tag: noindex, nofollow, noarchive` on administrative routes (`/admin`, `/write`, `/api/*`, `/*edit*`).
 
 ---
 

@@ -2,13 +2,47 @@ import * as React from "react";
 import Link from "next/link";
 import { Metadata } from "next";
 import { db } from "@/lib/db";
+import { siteConfig } from "@/lib/site-config";
+import { getBreadcrumbJsonLd, getCollectionPageJsonLd } from "@/lib/jsonld";
 import { Tag as TagIcon } from "@/components/icons";
 
 export const dynamic = "force-dynamic";
 
+const title = "Tags & Topics Directory";
+const description = "Browse all engineering topics, system architecture guides, and technical tags.";
+const canonicalUrl = `${siteConfig.blog.url}/tag`;
+const ogImageUrl = `${siteConfig.blog.url}/api/og?title=${encodeURIComponent(
+  title
+)}&tag=Topics&description=${encodeURIComponent(description)}`;
+
 export const metadata: Metadata = {
-  title: "Tags Directory",
-  description: "Browse all topics and article tags",
+  title,
+  description,
+  keywords: siteConfig.keywords,
+  alternates: {
+    canonical: canonicalUrl,
+  },
+  openGraph: {
+    title,
+    description,
+    url: canonicalUrl,
+    type: "website",
+    images: [
+      {
+        url: ogImageUrl,
+        width: 1200,
+        height: 630,
+        alt: title,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    creator: `@${siteConfig.author.handle}`,
+    images: [ogImageUrl],
+  },
 };
 
 export default async function TagsDirectoryPage() {
@@ -27,8 +61,33 @@ export default async function TagsDirectoryPage() {
     },
   });
 
+  const breadcrumbs = [
+    { name: "Home", path: "/" },
+    { name: "Tags", path: "/tag" },
+  ];
+  const breadcrumbJsonLd = getBreadcrumbJsonLd(breadcrumbs);
+  const collectionJsonLd = getCollectionPageJsonLd({
+    title,
+    description,
+    path: "/tag",
+    items: tags.map((t) => ({
+      name: `#${t.name}`,
+      path: `/tag/${t.slug}`,
+    })),
+  });
+
   return (
     <div className="space-y-6 font-mono text-xs">
+      {/* Schema.org Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionJsonLd) }}
+      />
+
       <div className="border-b border-border pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div>
           <div className="text-muted-foreground font-semibold">
