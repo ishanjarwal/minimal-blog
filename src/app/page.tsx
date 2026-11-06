@@ -1,69 +1,176 @@
+import * as React from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { Clock, Calendar, ArrowRight, Tag, BookOpen } from "@/components/icons";
 
-export default function Home() {
+interface PostItem {
+  id: string;
+  slug: string;
+  title: string;
+  shortDescription: string;
+  thumbnailUrl?: string | null;
+  publishedAt: string;
+  readTimeMinutes: number;
+  tags: string[];
+}
+
+// Sample feed items demonstrating both thumbnail & thumbnail-less cards
+const SAMPLE_POSTS: PostItem[] = [
+  {
+    id: "1",
+    slug: "understanding-linux-memory-management",
+    title: "Understanding Linux Virtual Memory & Page Cache Internals",
+    shortDescription:
+      "A deep-dive analysis of Linux page tables, memory overcommit heuristics, swap mechanics, and zero-copy I/O optimizations for high-throughput distributed systems.",
+    thumbnailUrl:
+      "https://res.cloudinary.com/dsf4t9wmc/image/upload/v1793573698/AI-Focused_Product_Engineer_Banner_pnc70e.png",
+    publishedAt: "Nov 6, 2026",
+    readTimeMinutes: 6,
+    tags: ["linux", "systems", "kernel"],
+  },
+  {
+    id: "2",
+    slug: "building-resilient-agentic-reasoning-loops",
+    title: "Building Resilient Agentic AI Reasoning Loops with Subagent Oracles",
+    shortDescription:
+      "Architectural lessons from productionizing multi-agent workflows: dealing with hallucination budgets, deterministic error back-propagation, and dynamic context pruning.",
+    thumbnailUrl: null, // Optional thumbnail omitted to demonstrate conditional rendering
+    publishedAt: "Oct 28, 2026",
+    readTimeMinutes: 8,
+    tags: ["agentic-ai", "llm", "architecture"],
+  },
+  {
+    id: "3",
+    slug: "designing-type-safe-real-time-protocols",
+    title: "Designing Type-Safe Real-Time WebSocket Protocols with Binary Payloads",
+    shortDescription:
+      "Exploring Protobuf and MessagePack serialization patterns over raw WebSockets to achieve sub-millisecond roundtrips in collaborative canvas software.",
+    thumbnailUrl: null, // Optional thumbnail omitted
+    publishedAt: "Oct 15, 2026",
+    readTimeMinutes: 5,
+    tags: ["websockets", "typescript", "networking"],
+  },
+];
+
+export default function HomePage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
+    <div className="space-y-6">
+      {/* Feed Header */}
+      <div className="flex items-center justify-between border-b border-border pb-3">
+        <div className="flex items-center gap-2">
+          <BookOpen className="size-4 text-muted-foreground" />
+          <h1 className="text-base sm:text-lg font-bold tracking-tight text-foreground">
+            ## Latest Articles
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+        <span className="text-xs text-muted-foreground font-mono">
+          [Showing latest {SAMPLE_POSTS.length} posts]
+        </span>
+      </div>
+
+      {/* Article Feed */}
+      <div className="space-y-4">
+        {SAMPLE_POSTS.map((post) => (
+          <article
+            key={post.id}
+            className="group border border-border bg-card p-4 sm:p-5 transition-colors hover:border-blue-500/60 dark:hover:border-blue-400/60"
           >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+            <div className="flex flex-col md:flex-row gap-4 items-start justify-between">
+              {/* Text content area */}
+              <div className="flex-1 min-w-0 space-y-2.5">
+                {/* Meta info */}
+                <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground font-mono">
+                  <span className="inline-flex items-center gap-1">
+                    <Calendar className="size-3" />
+                    {post.publishedAt}
+                  </span>
+                  <span>&bull;</span>
+                  <span className="inline-flex items-center gap-1">
+                    <Clock className="size-3" />
+                    {post.readTimeMinutes} min read
+                  </span>
+                </div>
+
+                {/* Title */}
+                <h2 className="text-base sm:text-lg font-bold text-foreground leading-snug">
+                  <Link
+                    href={`/blog/${post.slug}`}
+                    className="text-blue-600 dark:text-blue-400 underline hover:text-blue-800 dark:hover:text-blue-300 transition-colors"
+                  >
+                    {post.title}
+                  </Link>
+                </h2>
+
+                {/* Short Description */}
+                <p className="text-xs sm:text-sm text-foreground/85 font-mono leading-relaxed line-clamp-3">
+                  {post.shortDescription}
+                </p>
+
+                {/* Tags & Action link */}
+                <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-border/60 text-xs font-mono">
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    {post.tags.map((tag) => (
+                      <Link
+                        key={tag}
+                        href={`/tag/${tag}`}
+                        className="inline-flex items-center gap-1 px-1.5 py-0.5 border border-border bg-muted/60 text-[11px] text-foreground hover:bg-muted transition-colors"
+                      >
+                        <Tag className="size-2.5 text-muted-foreground" />
+                        <span>{tag}</span>
+                      </Link>
+                    ))}
+                  </div>
+
+                  <Link
+                    href={`/blog/${post.slug}`}
+                    className="inline-flex items-center gap-1 text-xs font-bold text-blue-600 dark:text-blue-400 underline hover:text-blue-800 dark:hover:text-blue-300 ml-auto"
+                  >
+                    <span>[Read</span>
+                    <ArrowRight className="size-3" />
+                    <span>]</span>
+                  </Link>
+                </div>
+              </div>
+
+              {/* Optional Thumbnail: Conditionally rendered only when thumbnailUrl is present */}
+              {post.thumbnailUrl && (
+                <div className="w-full md:w-44 sm:h-28 aspect-video sm:aspect-auto border border-border bg-muted overflow-hidden shrink-0">
+                  <Link href={`/blog/${post.slug}`} tabIndex={-1} aria-hidden="true">
+                    <Image
+                      src={post.thumbnailUrl}
+                      alt={post.title}
+                      width={176}
+                      height={112}
+                      className="w-full h-full object-cover transition-transform group-hover:scale-105"
+                    />
+                  </Link>
+                </div>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+
+      {/* Pagination Controls */}
+      <div className="flex items-center justify-between border-t border-border pt-4 text-xs font-mono">
+        <button
+          disabled
+          className="px-2 py-1 border border-border bg-muted/40 text-muted-foreground cursor-not-allowed select-none"
+        >
+          [← Previous]
+        </button>
+
+        <span className="text-muted-foreground select-none">
+          Page 1 of 1
+        </span>
+
+        <button
+          disabled
+          className="px-2 py-1 border border-border bg-muted/40 text-muted-foreground cursor-not-allowed select-none"
+        >
+          [Next →]
+        </button>
+      </div>
     </div>
   );
 }
