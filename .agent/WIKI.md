@@ -282,6 +282,18 @@ Three compose files designed to be merged using Docker Compose's multi-file flag
 - Dev: `docker compose -f compose.yml -f compose.dev.yml up`
 - Prod: `docker compose -f compose.yml -f compose.prod.yml up -d`
 
+### 7.3 Environment Variables Configuration
+
+| Variable | Description | Example / Default |
+|---|---|---|
+| `DATABASE_URL` | PostgreSQL connection string | `postgresql://...` |
+| `ADMIN_SECRET_KEY` | Secret passkey to access `/write` and edit pages | `super-secret-random-token-here` |
+| `NEXT_PUBLIC_SITE_URL` | Canonical URL of the blog | `https://blog.myportfolio.com` |
+| `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME` | Cloudinary Cloud Name for media | `my-cloud-name` |
+| `CLOUDINARY_API_KEY` | Cloudinary API Key | `123456789012345` |
+| `CLOUDINARY_API_SECRET` | Cloudinary API Secret | `abcdefghijklmnopqrstuvwxyz` |
+| `CLOUDINARY_FOLDER` | Destination folder on Cloudinary | `minimal-blog` |
+
 ---
 
 ## 8. Directory & File Organization

@@ -122,6 +122,7 @@ The project uses `.env.development` and `.env.production`. Key variables:
 | `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME` | Cloudinary Cloud Name for media | `my-cloud-name` |
 | `CLOUDINARY_API_KEY` | Cloudinary API Key | `123456789012345` |
 | `CLOUDINARY_API_SECRET` | Cloudinary API Secret | `abcdefghijklmnopqrstuvwxyz` |
+| `CLOUDINARY_FOLDER` | Destination folder on Cloudinary | `minimal-blog` |
 
 ---
 

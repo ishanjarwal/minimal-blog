@@ -9,7 +9,7 @@ cloudinary.config({
 
 export async function uploadMediaStream(
   buffer: Buffer,
-  folder = "minimal-blog/posts"
+  folder = process.env.CLOUDINARY_FOLDER || "minimal-blog"
 ): Promise<{ secureUrl: string; publicId: string }> {
   return new Promise((resolve, reject) => {
     const uploadStream = cloudinary.uploader.upload_stream(
