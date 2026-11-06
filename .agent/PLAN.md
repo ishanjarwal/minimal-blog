@@ -178,11 +178,11 @@ flowchart TD
 ## Milestone 10: Final Verification & Polish
 **Goal**: Verify all quality gates, type safety, security protections, and user flows.
 
-- [ ] **Task 10.1**: Automated Checks
+- [x] **Task 10.1**: Automated Checks
   - Run `npm run lint` and verify zero errors.
   - Run `npx tsc --noEmit` and verify complete type safety.
   - Run `npm run build` and ensure successful standalone build.
-- [ ] **Task 10.2**: End-to-End User Flow Walkthrough
+- [x] **Task 10.2**: End-to-End User Flow Walkthrough
   - Switch light/dark themes.
   - Browse home feed and navigate paginated pages.
   - Read individual post and test code snippet copying.
