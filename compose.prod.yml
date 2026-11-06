@@ -1,17 +1,8 @@
 services:
   app:
-    build:
-      context: .
-      target: runner
+    image: "ishanjarwal/minimal-blog:v1.0.0"
     ports:
-      - "3000:3000"
+      - "127.0.0.1${PORT:-3002}:3000"
     restart: always
     env_file:
       - .env.production
-    environment:
-      - NODE_ENV=production
-      - PORT=3000
-
-  db:
-    restart: always
-    # Ports deliberately omitted from host mapping to prevent unauthorized remote DB access on VPS
