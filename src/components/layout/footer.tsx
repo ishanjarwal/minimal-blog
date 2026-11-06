@@ -25,47 +25,48 @@ export function Footer() {
             </p>
           </div>
 
-          <div className="flex items-center gap-3 text-xs shrink-0 whitespace-nowrap">
+          {/* Links: 2-column grid on mobile to prevent overflow, inline flex on desktop */}
+          <div className="grid grid-cols-2 sm:flex sm:items-center gap-2.5 sm:gap-3 text-xs w-full sm:w-auto">
             <a
               href={author.githubUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-blue-600 dark:text-blue-400 underline hover:text-blue-800 dark:hover:text-blue-300 font-semibold whitespace-nowrap shrink-0"
+              className="inline-flex items-center gap-1 text-blue-600 dark:text-blue-400 underline hover:text-blue-800 dark:hover:text-blue-300 font-semibold whitespace-nowrap"
             >
               <GithubIcon className="size-3.5 shrink-0" />
               <span>[GitHub]</span>
             </a>
 
-            <span className="text-border shrink-0 select-none">|</span>
+            <span className="hidden sm:inline-block text-border select-none">|</span>
 
             <a
               href={author.linkedinUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-blue-600 dark:text-blue-400 underline hover:text-blue-800 dark:hover:text-blue-300 font-semibold whitespace-nowrap shrink-0"
+              className="inline-flex items-center gap-1 text-blue-600 dark:text-blue-400 underline hover:text-blue-800 dark:hover:text-blue-300 font-semibold whitespace-nowrap"
             >
               <LinkedinIcon className="size-3.5 shrink-0" />
               <span>[LinkedIn]</span>
             </a>
 
-            <span className="text-border shrink-0 select-none">|</span>
+            <span className="hidden sm:inline-block text-border select-none">|</span>
 
             <a
               href={author.portfolioUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-blue-600 dark:text-blue-400 underline hover:text-blue-800 dark:hover:text-blue-300 font-semibold whitespace-nowrap shrink-0"
+              className="inline-flex items-center gap-1 text-blue-600 dark:text-blue-400 underline hover:text-blue-800 dark:hover:text-blue-300 font-semibold whitespace-nowrap"
             >
               <Globe className="size-3.5 shrink-0" />
               <span>[Portfolio]</span>
             </a>
 
-            <span className="text-border shrink-0 select-none">|</span>
+            <span className="hidden sm:inline-block text-border select-none">|</span>
 
             <a
               href="#top"
               onClick={scrollToTop}
-              className="inline-flex items-center gap-0.5 text-blue-600 dark:text-blue-400 underline hover:text-blue-800 dark:hover:text-blue-300 font-bold whitespace-nowrap shrink-0"
+              className="inline-flex items-center gap-0.5 text-blue-600 dark:text-blue-400 underline hover:text-blue-800 dark:hover:text-blue-300 font-bold whitespace-nowrap"
             >
               <span>[Back to top</span>
               <ArrowUp className="size-3" />
