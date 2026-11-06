@@ -1,0 +1,52 @@
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Post {
+  id               String      @id @default(cuid())
+  slug             String      @unique
+  title            String
+  shortDescription String      @db.Text
+  content          String      @db.Text
+  thumbnailUrl     String?
+  published        Boolean     @default(false)
+  readTimeMinutes  Int         @default(1)
+  publishedAt      DateTime?
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+
+  tags             PostTag[]
+
+  @@index([published, publishedAt(sort: Desc)])
+  @@index([slug])
+  @@map("posts")
+}
+
+model Tag {
+  id        String    @id @default(cuid())
+  name      String    @unique
+  slug      String    @unique
+  createdAt DateTime  @default(now())
+
+  posts     PostTag[]
+
+  @@index([slug])
+  @@map("tags")
+}
+
+model PostTag {
+  postId String
+  tagId  String
+
+  post   Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  tag    Tag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([postId, tagId])
+  @@index([tagId])
+  @@index([postId])
+  @@map("post_tags")
+}
