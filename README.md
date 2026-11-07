@@ -142,6 +142,33 @@ docker compose -f compose.yml -f compose.prod.yml up -d --build
 
 ---
 
+## ✦ Automated VPS Deployment (GitHub Actions)
+
+A production-ready CI/CD workflow is configured in [`.github/workflows/vps-deployment.yml`](.github/workflows/vps-deployment.yml). On every push to `main` (or version tag `v*.*.*`), the workflow:
+1. **Validates**: Runs ESLint, generates Prisma client, and checks TypeScript types.
+2. **Builds & Pushes**: Builds the Next.js standalone container with GitHub Actions layer caching and pushes to Docker Hub (`ishanjarwal/minimal-blog`).
+3. **Deploys via SSH**:
+   - Fetches latest changes on your VPS without touching untracked `.env.production`.
+   - Ensures the shared `infra-network` Docker network exists.
+   - Pulls the newly built image and runs Prisma migrations (`prisma migrate deploy`).
+   - Restarts containers with zero downtime (`--remove-orphans`) and prunes obsolete images.
+
+### Required GitHub Repository Secrets
+
+Configure the following secrets in **Settings > Secrets and variables > Actions**:
+
+| Secret Name | Required | Description | Example |
+|---|---|---|---|
+| `DOCKERHUB_USERNAME` | **Yes** | Docker Hub account username | `ishanjarwal` |
+| `DOCKERHUB_TOKEN` | **Yes** | Docker Hub Personal Access Token (PAT) with Read/Write access | `dckr_pat_...` |
+| `VPS_HOST` | **Yes** | VPS IP address or domain | `192.0.2.1` or `vps.yourdomain.com` |
+| `VPS_USERNAME` | **Yes** | SSH username on VPS | `root` or `ubuntu` |
+| `VPS_SSH_KEY` | **Yes** | Private SSH key authorized on your VPS | `-----BEGIN OPENSSH PRIVATE KEY-----...` |
+| `VPS_PORT` | No | SSH port (defaults to `22`) | `22` |
+| `VPS_PROJECT_DIR` | No | Target repository path on VPS (defaults to `~/minimal-blog`) | `/home/ubuntu/minimal-blog` |
+
+---
+
 ## ✦ Documentation & Architecture
 
 For deep-dive architectural specifications, database schemas, and step-by-step roadmap:
