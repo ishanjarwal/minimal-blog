@@ -7,10 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "db:push": "dotenv -e .env.development -- prisma db push",
-    "db:seed": "dotenv -e .env.development -- tsx prisma/seed.ts",
-    "db:studio": "dotenv -e .env.development -- prisma studio",
-    "db:generate": "dotenv -e .env.development -- prisma generate"
+    "db:push": "prisma db push",
+    "db:seed": "tsx prisma/seed.ts",
+    "db:studio": "prisma studio",
+    "db:generate": "prisma generate"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
