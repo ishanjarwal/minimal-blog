@@ -1,12 +1,26 @@
 name: minimal-blog
 
 services:
+  migration-service:
+    container_name: "migration-service"
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: migrator
+    networks:
+      - shared
+    restart: "no"
+
   minimal-blog-app:
     container_name: "minimal-blog-app"
     build:
       context: .
       dockerfile: Dockerfile
+      target: runner
     restart: unless-stopped
+    depends_on:
+      migration-service:
+        condition: service_completed_successfully
     networks: 
       - shared
 networks:

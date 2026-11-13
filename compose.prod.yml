@@ -1,4 +1,10 @@
 services:
+  migration-service:
+    env_file:
+      - .env.production
+    environment:
+      ENV_FILE: .env.production
+
   minimal-blog-app:
     image: "ishanjarwal/minimal-blog:${TAG:-latest}"
     ports:

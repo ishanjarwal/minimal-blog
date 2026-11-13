@@ -1,15 +1,18 @@
 services:
-  app:
+  migration-service:
+    env_file:
+      - .env.development
+    environment:
+      ENV_FILE: .env.development
+
+
+  minimal-blog-app:
+    image: "minimal-blog:${TAG:-v1.0.0}"
     build:
       context: .
-      target: deps
-    command: npm run dev
+      dockerfile: "./Dockerfile"
     ports:
-      - "3000:3000"
-    volumes:
-      - .:/app
-      - /app/node_modules
-      - /app/.next
+      - "${PORT:-3000}:3000"
     env_file:
       - .env.development
     environment:
